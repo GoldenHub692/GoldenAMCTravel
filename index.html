@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cy & Pam's AMC Travel Ops</title>
+  <title>Golden AMC Travel Ops</title>
   <!-- Icon for most browsers -->
 <link rel="icon" href="GoldenAMCTravel.png">
 
@@ -53,26 +53,28 @@
     }
 
     function generateEmail() {
-      const selected = document.getElementById("emailDropdown").value;
-      if (!selected) {
-        alert("Please select a terminal first.");
-        return;
-      }
+  const selected = document.getElementById("emailDropdown").value;
+  const userName = document.getElementById("userName").value.trim();
+  const userPhone = document.getElementById("userPhone").value.trim();
 
-      const emailTo = terminalEmails[selected];
-      const terminalName = terminalNames[selected];
-      const subject = encodeURIComponent("Space A Travel to fly out from " + terminalName);
-      const body = encodeURIComponent(
-        new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) +
-        "\n\nHello,\n\nI am retired Air Force MSgt Louis C. Golden.\n\n" +
-        "Please sign me and my wife, Pam Golden, up for space A travel to the USA, Guam, Japan, and Alaska.\n\n" +
-        "My AMC Form 140 is attached.\n\nThank you,\nMSgt Golden\n(253)202-9808"
-      );
+  if (!selected || !userName || !userPhone) {
+    alert("Please select a terminal and enter your name and phone number.");
+    return;
+  }
 
-      const cc = "GoldenPS2021@Outlook.com";
-      window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}&cc=${cc}`;
-      showToast();
-    }
+  const emailTo = terminalEmails[selected];
+  const terminalName = terminalNames[selected];
+  const subject = encodeURIComponent("Space A Travel to fly out from " + terminalName);
+  const body = encodeURIComponent(
+    new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) +
+    `\n\nHello,\n\nI am retired Air Force ${userName}.\n\n` +
+    `Please sign me up for space A travel to the USA, Guam, Japan, and Alaska.\n\n` +
+    `My AMC Form 140 is attached.\n\nThank you,\n${userName}\n${userPhone}`
+  );
+
+  window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}`;
+  showToast();
+}
 
     function showToast() {
       const toast = document.getElementById("toast");
@@ -81,6 +83,15 @@
     }
   </script>
   <style>
+    .app-box {
+  background-color: #3a3f58;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 450px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
     body {
       font-family: sans-serif;
       background-color: #2d4059;
@@ -158,7 +169,11 @@
 </head>
 <body>
 
-  <h2>Cy & Pam's AMC Travel Ops</h2>
+<div class="app-box">
+  <h2>Golden AMC Travel Ops</h2>
+ 
+  <!-- grid buttons here -->
+
   <div class="grid">
     <button onclick="visitTerminal('Andrews AMCT')">Andrews AMCT</button>
     <button onclick="visitTerminal('Hickam AMCT')">Hickam AMCT</button>
@@ -181,8 +196,18 @@
     <option value="Kadena AMCT">Kadena AMCT</option>
     <option value="Charleston AMCT">Charleston AMCT</option>
   </select>
-  <br>
-  <button class="email-btn" onclick="generateEmail()">Generate Signup Email</button>
-  <div id="toast">Don’t forget to attach your AMC Form 140!</div>
+
+<br><br>
+
+<input type="text" id="userName" placeholder="Your name (e.g. MSgt Silver)">
+<input type="text" id="userPhone" placeholder="Phone# (e.g. (808)666-9809)">
+    
+<br>
+
+<button class="email-btn" onclick="generateEmail()">Generate Signup Email</button>
+</div>
+
+
+<div id="toast">Don’t forget to attach your AMC Form 140!</div>
 
  
