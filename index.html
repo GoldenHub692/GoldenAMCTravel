@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cy & Pam's AMC Travel Ops</title>
+  <!-- Icon for most browsers -->
+<link rel="icon" href="GoldenAMCTravel.png">
+
+<!-- Icon for iOS and PWA installs -->
+<link rel="apple-touch-icon" href="GoldenAMCTravel.png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer>
+    const terminalLinks = {
+      "Andrews AMCT": "https://www.amc.af.mil/AMC-Travel-Site/Terminals/CONUS-Terminals/Joint-Base-Andrews-Passenger-Terminal/",
+      "Hickam AMCT": "https://www.amc.af.mil/AMC-Travel-Site/Terminals/PACOM-Terminals/Joint-Base-Pearl-Harbor-Hickam-Passenger-Terminal/",
+      "McChord AMCT": "https://www.amc.af.mil/AMC-Travel-Site/Terminals/CONUS-Terminals/Joint-Base-Lewis-McChord-Passenger-Terminal/",
+      "Travis AMCT": "https://www.amc.af.mil/AMC-Travel-Site/Terminals/CONUS-Terminals/Travis-AFB-Passenger-Terminal/",
+      "Anderson AMCT": "https://www.amc.af.mil/AMC-Travel-Site/Terminals/PACOM-Terminals/Andersen-AFB-Passenger-Terminal/",
+      "Yokota AMCT": "https://www.amc.af.mil/AMC-Travel-Site/Terminals/PACOM-Terminals/Yokota-AB-Passenger-Terminal/",
+      "Kadena AMCT": "https://www.amc.af.mil/AMC-Travel-Site/Terminals/PACOM-Terminals/Kadena-AB-Passenger-Terminal/",
+      "Charleston AMCT": "https://www.amc.af.mil/AMC-Travel-Site/Terminals/CONUS-Terminals/Joint-Base-Charleston-Passenger-Terminal/"
+    };
+
+    const terminalEmails = {
+      "Andrews AMCT": "AMC.SPACEA@us.af.mil",
+      "Hickam AMCT": "735AMS.TRPS@us.af.mil",
+      "McChord AMCT": "SpaceA.McChord@us.af.mil",
+      "Travis AMCT": "60aps.SpaceA@us.af.mil",
+      "Anderson AMCT": "spacea.signup@us.af.mil",
+      "Yokota AMCT": "730ams.org@us.af.mil",
+      "Kadena AMCT": "733ams.space-available@us.af.mil",
+      "Charleston AMCT": "437APS.SPACEA@us.af.mil"
+    };
+
+    const terminalNames = {
+      "Andrews AMCT": "Joint Base Andrews AMC Passenger Terminal",
+      "Hickam AMCT": "JBPH AMC Passenger Terminal",
+      "McChord AMCT": "JBLM AMC Passenger Terminal",
+      "Travis AMCT": "Travis AMC Passenger Terminal",
+      "Anderson AMCT": "Anderson AFB Passenger Terminal",
+      "Yokota AMCT": "Yokota AB Passenger Terminal",
+      "Kadena AMCT": "Kadena AB Passenger Terminal",
+      "Charleston AMCT": "JB Charleston AMC Passenger Terminal"
+    };
+
+    function visitTerminal(name) {
+      const url = terminalLinks[name];
+      if (url) {
+        window.open(url, "_blank");
+        document.getElementById("emailDropdown").value = name;
+      }
+    }
+
+    function generateEmail() {
+      const selected = document.getElementById("emailDropdown").value;
+      if (!selected) {
+        alert("Please select a terminal first.");
+        return;
+      }
+
+      const emailTo = terminalEmails[selected];
+      const terminalName = terminalNames[selected];
+      const subject = encodeURIComponent("Space A Travel to fly out from " + terminalName);
+      const body = encodeURIComponent(
+        new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) +
+        "\n\nHello,\n\nI am retired Air Force MSgt Louis C. Golden.\n\n" +
+        "Please sign me and my wife, Pam Golden, up for space A travel to the USA, Guam, Japan, and Alaska.\n\n" +
+        "My AMC Form 140 is attached.\n\nThank you,\nMSgt Golden\n(253)202-9808"
+      );
+
+      const cc = "GoldenPS2021@Outlook.com";
+      window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}&cc=${cc}`;
+      showToast();
+    }
+
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.className = "show";
+      setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+  </script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #2d4059;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-width: 400px;
+      margin: 0 auto 20px auto;
+    }
+    button {
+      padding: 15px;
+      font-size: 15px;
+      background-color: #0e473e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: transform 0.1s ease;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    select, .email-btn {
+      margin-top: 10px;
+      padding: 12px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: none;
+      width: 80%;
+      max-width: 320px;
+    }
+    .email-btn {
+      background-color: #3a3a3a;
+      color: white;
+      margin-top: 15px;
+    }
+    #toast {
+      visibility: hidden;
+      min-width: 220px;
+      background-color: #fbc531;
+      color: #2f3640;
+      text-align: center;
+      border-radius: 6px;
+      padding: 10px;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      font-size: 14px;
+    }
+    #toast.show {
+      visibility: visible;
+      animation: fadein 0.4s, fadeout 0.4s 2.5s;
+    }
+    @keyframes fadein {
+      from { bottom: 10px; opacity: 0; }
+      to { bottom: 30px; opacity: 1; }
+    }
+    @keyframes fadeout {
+      from { bottom: 30px; opacity: 1; }
+      to { bottom: 10px; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Cy & Pam's AMC Travel Ops</h2>
+  <div class="grid">
+    <button onclick="visitTerminal('Andrews AMCT')">Andrews AMCT</button>
+    <button onclick="visitTerminal('Hickam AMCT')">Hickam AMCT</button>
+    <button onclick="visitTerminal('McChord AMCT')">McChord AMCT</button>
+    <button onclick="visitTerminal('Travis AMCT')">Travis AMCT</button>
+    <button onclick="visitTerminal('Anderson AMCT')">Anderson AMCT</button>
+    <button onclick="visitTerminal('Yokota AMCT')">Yokota AMCT</button>
+    <button onclick="visitTerminal('Kadena AMCT')">Kadena AMCT</button>
+    <button onclick="visitTerminal('Charleston AMCT')">Charleston AMCT</button>
+  </div>
+
+  <select id="emailDropdown">
+    <option value="">Select terminal for signup</option>
+    <option value="Andrews AMCT">Andrews AMCT</option>
+    <option value="Hickam AMCT">Hickam AMCT</option>
+    <option value="McChord AMCT">McChord AMCT</option>
+    <option value="Travis AMCT">Travis AMCT</option>
+    <option value="Anderson AMCT">Anderson AMCT</option>
+    <option value="Yokota AMCT">Yokota AMCT</option>
+    <option value="Kadena AMCT">Kadena AMCT</option>
+    <option value="Charleston AMCT">Charleston AMCT</option>
+  </select>
+  <br>
+  <button class="email-btn" onclick="generateEmail()">Generate Signup Email</button>
+  <div id="toast">Don’t forget to attach your AMC Form 140!</div>
+
+ 
