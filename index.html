@@ -75,7 +75,7 @@
 
   const emailTo = terminalEmails[selected];
   const terminalName = terminalNames[selected];
-  const subject = encodeURIComponent("Space A Travel to fly out from " + terminalName);
+  const subject = encodeURIComponent("Space A Travel signup email to fly out from " + terminalName);
   const body = encodeURIComponent(
     new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) +
     `\n\nHello,\n\nI am retired Air Force ${userName}.\n\n` +
